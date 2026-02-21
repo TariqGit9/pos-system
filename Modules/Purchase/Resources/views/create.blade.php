@@ -120,7 +120,7 @@
     <script>
         $(document).ready(function () {
             $('#paid_amount').maskMoney({
-                prefix:'RS'
+                prefix:'RS',
                 thousands:'{{ settings()->currency->thousand_separator }}',
                 decimal:'{{ settings()->currency->decimal_separator }}',
                 allowZero: true,

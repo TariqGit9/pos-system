@@ -1,6 +1,7 @@
 $(document).ready(function () {
+    var base = window.baseUrl || '';
     let salesPurchasesBar = document.getElementById('salesPurchasesChart');
-    $.get('/sales-purchases/chart-data', function (response) {
+    $.get(base + '/sales-purchases/chart-data', function (response) {
         let salesPurchasesChart = new Chart(salesPurchasesBar, {
             type: 'bar',
             data: {
@@ -40,7 +41,7 @@ $(document).ready(function () {
     });
 
     let overviewChart = document.getElementById('currentMonthChart');
-    $.get('/current-month/chart-data', function (response) {
+    $.get(base + '/current-month/chart-data', function (response) {
         let currentMonthChart = new Chart(overviewChart, {
             type: 'doughnut',
             data: {
@@ -63,7 +64,7 @@ $(document).ready(function () {
     });
 
     let paymentChart = document.getElementById('paymentChart');
-    $.get('/payment-flow/chart-data', function (response) {
+    $.get(base + '/payment-flow/chart-data', function (response) {
         let cashflowChart = new Chart(paymentChart, {
             type: 'line',
             data: {

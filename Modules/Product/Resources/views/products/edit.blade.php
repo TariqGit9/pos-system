@@ -202,12 +202,12 @@
     <script>
         $(document).ready(function () {
             $('#product_cost').maskMoney({
-                prefix:'RS'
+                prefix:'RS',
                 thousands:'{{ settings()->currency->thousand_separator }}',
                 decimal:'{{ settings()->currency->decimal_separator }}',
             });
             $('#product_price').maskMoney({
-                prefix:'RS'
+                prefix:'RS',
                 thousands:'{{ settings()->currency->thousand_separator }}',
                 decimal:'{{ settings()->currency->decimal_separator }}',
             });

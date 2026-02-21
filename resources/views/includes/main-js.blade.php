@@ -1,3 +1,4 @@
+<script>window.baseUrl = '{{ rtrim(parse_url(config("app.url"), PHP_URL_PATH), "/") }}';</script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 @vite('resources/js/app.js')
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
@@ -12,4 +13,10 @@
 
 @stack('page_scripts')
 
-@livewireScripts
+@php
+    $livewireManifest = json_decode(file_get_contents(base_path('vendor/livewire/livewire/dist/manifest.json')), true);
+    $livewireVersion = $livewireManifest['/livewire.js'];
+    $basePath = rtrim(parse_url(config('app.url'), PHP_URL_PATH), '/');
+@endphp
+<!-- Livewire Scripts -->
+<script src="{{ $basePath }}/livewire/livewire.js?id={{ $livewireVersion }}" data-csrf="{{ csrf_token() }}" data-uri="{{ $basePath }}/livewire/update"></script>
