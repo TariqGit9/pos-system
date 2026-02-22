@@ -49,6 +49,15 @@ class LoginController extends Controller
             ]);
         }
 
+        // Check if the user's company is active
+        if (!$user->is_super_admin && $user->company_id) {
+            $company = \App\Models\Company::find($user->company_id);
+            if (!$company || !$company->is_active) {
+                Auth::logout();
+                return redirect()->route('company.suspended');
+            }
+        }
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 }

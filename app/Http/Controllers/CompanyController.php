@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Modules\Currency\Entities\Currency;
 
 class CompanyController extends Controller
@@ -28,6 +29,7 @@ class CompanyController extends Controller
             'company_email' => 'nullable|email|max:255',
             'company_phone' => 'nullable|string|max:255',
             'company_address' => 'nullable|string',
+            'company_logo' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
             'admin_name' => 'required|string|max:255',
             'admin_email' => 'required|email|unique:users,email',
             'admin_password' => 'required|string|min:8|confirmed',
@@ -35,11 +37,17 @@ class CompanyController extends Controller
 
         $defaultCurrency = Currency::where('code', 'PKR')->first() ?? Currency::first();
 
+        $logoPath = null;
+        if ($request->hasFile('company_logo')) {
+            $logoPath = $request->file('company_logo')->store('companies', 'public');
+        }
+
         $company = Company::create([
             'name' => $request->company_name,
             'email' => $request->company_email,
             'phone' => $request->company_phone,
             'address' => $request->company_address,
+            'site_logo' => $logoPath,
             'default_currency_id' => $defaultCurrency?->id,
             'default_currency_position' => 'prefix',
             'is_active' => true,
@@ -79,15 +87,25 @@ class CompanyController extends Controller
             'company_email' => 'nullable|email|max:255',
             'company_phone' => 'nullable|string|max:255',
             'company_address' => 'nullable|string',
+            'company_logo' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
         ]);
 
-        $company->update([
+        $data = [
             'name' => $request->company_name,
             'email' => $request->company_email,
             'phone' => $request->company_phone,
             'address' => $request->company_address,
             'is_active' => $request->has('is_active'),
-        ]);
+        ];
+
+        if ($request->hasFile('company_logo')) {
+            if ($company->site_logo) {
+                Storage::disk('public')->delete($company->site_logo);
+            }
+            $data['site_logo'] = $request->file('company_logo')->store('companies', 'public');
+        }
+
+        $company->update($data);
 
         cache()->forget('settings_company_' . $company->id);
         cache()->forget('settings_default');

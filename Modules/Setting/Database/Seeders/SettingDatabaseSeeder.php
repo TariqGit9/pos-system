@@ -23,7 +23,7 @@ class SettingDatabaseSeeder extends Seeder
             'default_currency_id' => 1,
             'default_currency_position' => 'prefix',
             'footer_text' => 'POS',
-            'company_address' => 'Tangail, Bangladesh'
+            'company_address' => 'Pakistan'
         ]);
     }
 }

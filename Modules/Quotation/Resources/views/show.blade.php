@@ -30,6 +30,9 @@
                         <div class="row mb-4">
                             <div class="col-sm-4 mb-3 mb-md-0">
                                 <h5 class="mb-2 border-bottom pb-2">Company Info:</h5>
+                                @if(settings()->site_logo)
+                                    <div class="mb-2"><img src="{{ asset('storage/' . settings()->site_logo) }}" alt="Logo" style="max-height: 50px;"></div>
+                                @endif
                                 <div><strong>{{ settings()->company_name }}</strong></div>
                                 <div>{{ settings()->company_address }}</div>
                                 <div>Email: {{ settings()->company_email }}</div>

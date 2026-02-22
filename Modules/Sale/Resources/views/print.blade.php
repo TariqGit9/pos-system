@@ -13,7 +13,13 @@
     <div class="row">
         <div class="col-xs-12">
             <div style="text-align: center;margin-bottom: 25px;">
-                <img width="180" src="{{ public_path('images/logo-dark.png') }}" alt="Logo">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px;">
+                    @if(settings()->site_logo)
+                        <img style="max-height: 60px;" src="{{ public_path('storage/' . settings()->site_logo) }}" alt="Company Logo">
+                    @endif
+                    <img width="120" src="{{ public_path('images/logo-dark.png') }}" alt="Quantivo">
+                </div>
+                <h3 style="margin: 0 0 5px; font-size: 18px;">{{ settings()->company_name }}</h3>
                 <h4 style="margin-bottom: 20px;">
                     <span>Reference::</span> <strong>{{ $sale->reference }}</strong>
                 </h4>

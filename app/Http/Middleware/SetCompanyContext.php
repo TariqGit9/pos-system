@@ -28,6 +28,15 @@ class SetCompanyContext
             } else {
                 // Regular user: use their company
                 $company = $user->company;
+
+                // Block access if company is inactive
+                if (!$company || !$company->is_active) {
+                    auth()->logout();
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
+                    return redirect()->route('company.suspended');
+                }
+
                 view()->share('currentCompany', $company);
                 view()->share('isSuperAdmin', false);
                 view()->share('isSuperAdminImpersonating', false);

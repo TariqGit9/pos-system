@@ -12,6 +12,10 @@ Route::get('/', function () {
     return view('landing');
 })->middleware('guest');
 
+Route::get('/company-suspended', function () {
+    return view('company-suspended');
+})->name('company.suspended');
+
 Auth::routes(['register' => false]);
 
 Route::group(['middleware' => 'auth'], function () {

@@ -12,7 +12,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <form action="{{ route('companies.update', $company) }}" method="POST">
+        <form action="{{ route('companies.update', $company) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row">
@@ -54,6 +54,20 @@
                                 <textarea class="form-control @error('company_address') is-invalid @enderror"
                                           name="company_address" id="company_address" rows="3">{{ old('company_address', $company->address) }}</textarea>
                                 @error('company_address')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="company_logo">Company Logo</label>
+                                @if($company->site_logo)
+                                    <div class="mb-2">
+                                        <img src="{{ asset('storage/' . $company->site_logo) }}" alt="Current Logo" style="max-height: 60px;">
+                                    </div>
+                                @endif
+                                <input type="file" class="form-control-file @error('company_logo') is-invalid @enderror"
+                                       name="company_logo" id="company_logo" accept="image/*">
+                                <small class="form-text text-muted">Leave empty to keep current logo</small>
+                                @error('company_logo')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
