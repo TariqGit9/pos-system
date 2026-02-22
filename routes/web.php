@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('landing');
 })->middleware('guest');
 
 Auth::routes(['register' => false]);
