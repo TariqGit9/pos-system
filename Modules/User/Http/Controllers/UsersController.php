@@ -37,11 +37,20 @@ class UsersController extends Controller
             'password' => 'required|string|min:8|max:255|confirmed'
         ]);
 
+        // Determine company_id for the new user
+        $currentUser = auth()->user();
+        if ($currentUser->isSuperAdmin()) {
+            $companyId = session('impersonating_company_id') ?? $request->company_id;
+        } else {
+            $companyId = $currentUser->company_id;
+        }
+
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'is_active' => $request->is_active
+            'is_active' => $request->is_active,
+            'company_id' => $companyId,
         ]);
 
         $user->assignRole($request->role);
@@ -65,6 +74,7 @@ class UsersController extends Controller
 
     public function edit(User $user) {
         abort_if(Gate::denies('access_user_management'), 403);
+        $this->authorizeCompanyUser($user);
 
         return view('user::users.edit', compact('user'));
     }
@@ -72,6 +82,7 @@ class UsersController extends Controller
 
     public function update(Request $request, User $user) {
         abort_if(Gate::denies('access_user_management'), 403);
+        $this->authorizeCompanyUser($user);
 
         $request->validate([
             'name'     => 'required|string|max:255',
@@ -109,11 +120,28 @@ class UsersController extends Controller
 
     public function destroy(User $user) {
         abort_if(Gate::denies('access_user_management'), 403);
+        $this->authorizeCompanyUser($user);
 
         $user->delete();
 
         toast('User Deleted!', 'warning');
 
         return redirect()->route('users.index');
+    }
+
+    private function authorizeCompanyUser(User $user)
+    {
+        $current = auth()->user();
+
+        if ($current->isSuperAdmin()) {
+            $companyId = session('impersonating_company_id');
+            if ($companyId && $user->company_id != $companyId) {
+                abort(403);
+            }
+        } else {
+            if ($user->company_id != $current->company_id) {
+                abort(403);
+            }
+        }
     }
 }

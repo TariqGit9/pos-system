@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 
+use App\Traits\BelongsToCompany;
+
 class PurchaseReturnPayment extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToCompany;
 
     protected $guarded = [];
 

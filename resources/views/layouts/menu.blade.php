@@ -1,3 +1,27 @@
+@if(isset($isSuperAdmin) && $isSuperAdmin)
+    <li class="c-sidebar-nav-item {{ request()->routeIs('companies.*') ? 'c-active' : '' }}">
+        <a class="c-sidebar-nav-link" href="{{ route('companies.index') }}">
+            <i class="c-sidebar-nav-icon bi bi-building" style="line-height: 1;"></i> Companies
+        </a>
+    </li>
+@endif
+
+@if(isset($isSuperAdminImpersonating) && $isSuperAdminImpersonating && isset($currentCompany))
+    <li class="c-sidebar-nav-item">
+        <form action="{{ route('companies.leave') }}" method="POST" class="px-3 py-2">
+            @csrf
+            <div class="d-flex align-items-center text-white mb-1" style="font-size: 0.75rem; opacity: 0.6;">
+                Viewing as:
+            </div>
+            <div class="d-flex align-items-center justify-content-between">
+                <span class="text-white font-weight-bold" style="font-size: 0.85rem;">{{ $currentCompany->name }}</span>
+                <button type="submit" class="btn btn-sm btn-outline-light" style="font-size: 0.7rem; padding: 2px 8px;">Exit</button>
+            </div>
+        </form>
+    </li>
+    <li class="c-sidebar-nav-divider"></li>
+@endif
+
 <li class="c-sidebar-nav-item {{ request()->routeIs('home') ? 'c-active' : '' }}">
     <a class="c-sidebar-nav-link" href="{{ route('home') }}">
         <i class="c-sidebar-nav-icon bi bi-house" style="line-height: 1;"></i> Home
@@ -209,7 +233,7 @@
     </li>
 @endcan
 
-@can('access_customers|access_suppliers')
+@canany(['access_customers', 'access_suppliers'])
     <li class="c-sidebar-nav-item c-sidebar-nav-dropdown {{ request()->routeIs('customers.*') || request()->routeIs('suppliers.*') ? 'c-show' : '' }}">
         <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
             <i class="c-sidebar-nav-icon bi bi-people" style="line-height: 1;"></i> Parties
@@ -231,7 +255,7 @@
             @endcan
         </ul>
     </li>
-@endcan
+@endcanany
 
 @can('access_reports')
     <li class="c-sidebar-nav-item c-sidebar-nav-dropdown {{ request()->routeIs('*-report.index') ? 'c-show' : '' }}">
@@ -298,7 +322,7 @@
     </li>
 @endcan
 
-@can('access_currencies|access_settings')
+@canany(['access_currencies', 'access_settings'])
     <li class="c-sidebar-nav-item c-sidebar-nav-dropdown {{ request()->routeIs('currencies*') || request()->routeIs('units*') ? 'c-show' : '' }}">
         <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
             <i class="c-sidebar-nav-icon bi bi-gear" style="line-height: 1;"></i> Settings
@@ -331,4 +355,4 @@
         </ul>
         @endcan
     </li>
-@endcan
+@endcanany

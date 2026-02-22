@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Product\Entities\Product;
 
+use App\Traits\BelongsToCompany;
+
 class AdjustedProduct extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToCompany;
 
     protected $guarded = [];
 

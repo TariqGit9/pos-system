@@ -115,7 +115,12 @@ class PermissionsTableSeeder extends Seeder
             //Settings
             'access_settings',
             //Units
-            'access_units'
+            'access_units',
+            //Companies (Super Admin)
+            'access_companies',
+            'create_companies',
+            'edit_companies',
+            'delete_companies'
         ];
 
         foreach ($permissions as $permission) {
@@ -129,6 +134,5 @@ class PermissionsTableSeeder extends Seeder
         ]);
 
         $role->givePermissionTo($permissions);
-        $role->revokePermissionTo('access_user_management');
     }
 }

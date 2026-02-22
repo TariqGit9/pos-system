@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 use Modules\People\Entities\Customer;
 
+use App\Traits\BelongsToCompany;
+
 class Quotation extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToCompany;
 
     protected $guarded = [];
 

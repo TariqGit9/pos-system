@@ -18,6 +18,12 @@ class HomeController extends Controller
 {
 
     public function index() {
+        // Super admin without impersonated company -> redirect to company management
+        $user = auth()->user();
+        if ($user->isSuperAdmin() && !session('impersonating_company_id')) {
+            return redirect()->route('companies.index');
+        }
+
         $sales = Sale::completed()->sum('total_amount');
         $sale_returns = SaleReturn::completed()->sum('total_amount');
         $purchase_returns = PurchaseReturn::completed()->sum('total_amount');

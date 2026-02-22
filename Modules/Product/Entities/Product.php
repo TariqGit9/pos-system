@@ -9,10 +9,12 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+use App\Traits\BelongsToCompany;
+
 class Product extends Model implements HasMedia
 {
 
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, BelongsToCompany;
 
     protected $guarded = [];
 

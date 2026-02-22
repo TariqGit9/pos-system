@@ -17,8 +17,17 @@ class CurrencyDatabaseSeeder extends Seeder
      */
     public function run() {
         Currency::create([
+            'currency_name'      => 'Pakistani Rupee',
+            'code'               => 'PKR',
+            'symbol'             => 'Rs',
+            'thousand_separator' => ',',
+            'decimal_separator'  => '.',
+            'exchange_rate'      => null
+        ]);
+
+        Currency::create([
             'currency_name'      => 'US Dollar',
-            'code'               => Str::upper('USD'),
+            'code'               => 'USD',
             'symbol'             => '$',
             'thousand_separator' => ',',
             'decimal_separator'  => '.',

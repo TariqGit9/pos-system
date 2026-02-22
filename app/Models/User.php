@@ -25,7 +25,9 @@ class User extends Authenticatable implements HasMedia
         'name',
         'email',
         'password',
-        'is_active'
+        'is_active',
+        'company_id',
+        'is_super_admin',
     ];
 
     /**
@@ -45,6 +47,7 @@ class User extends Authenticatable implements HasMedia
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_super_admin' => 'boolean',
     ];
 
     protected $with = ['media'];
@@ -57,5 +60,15 @@ class User extends Authenticatable implements HasMedia
 
     public function scopeIsActive(Builder $builder) {
         return $builder->where('is_active', 1);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->is_super_admin;
     }
 }

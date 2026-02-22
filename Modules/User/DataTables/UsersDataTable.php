@@ -41,11 +41,25 @@ class UsersDataTable extends DataTable
     }
 
     public function query(User $model) {
-        return $model->newQuery()
+        $query = $model->newQuery()
             ->with(['roles' => function ($query) {
                 $query->select('name')->get();
             }])
-            ->where('id', '!=', auth()->id());
+            ->where('id', '!=', auth()->id())
+            ->where('is_super_admin', false);
+
+        // Scope by company for non-super-admin users
+        $user = auth()->user();
+        if ($user->isSuperAdmin()) {
+            $companyId = session('impersonating_company_id');
+            if ($companyId) {
+                $query->where('company_id', $companyId);
+            }
+        } else {
+            $query->where('company_id', $user->company_id);
+        }
+
+        return $query;
     }
 
     public function html() {

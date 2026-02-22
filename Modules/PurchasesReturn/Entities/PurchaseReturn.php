@@ -5,9 +5,11 @@ namespace Modules\PurchasesReturn\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use App\Traits\BelongsToCompany;
+
 class PurchaseReturn extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToCompany;
 
     protected $guarded = [];
 

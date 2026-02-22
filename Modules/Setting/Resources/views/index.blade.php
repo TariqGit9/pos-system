@@ -72,10 +72,20 @@
                             </div>
 
                             <div class="form-row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-8">
                                     <div class="form-group">
                                         <label for="company_address">Company Address <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="company_address" value="{{ $settings->company_address }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="use_decimal">Currency Decimals</label>
+                                        <div class="custom-control custom-switch mt-2">
+                                            <input type="hidden" name="use_decimal" value="0">
+                                            <input type="checkbox" class="custom-control-input" id="use_decimal" name="use_decimal" value="1" {{ $settings->use_decimal ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="use_decimal">Use decimal places (e.g. 150.00 vs 150)</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

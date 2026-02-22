@@ -98,6 +98,8 @@
                 prefix:'RS',
                 thousands:'{{ settings()->currency->thousand_separator }}',
                 decimal:'{{ settings()->currency->decimal_separator }}',
+                precision:{{ settings()->use_decimal ? 2 : 0 }},
+                reverse: false,
             });
 
             $('#getTotalAmount').click(function () {
